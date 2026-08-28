@@ -97,3 +97,9 @@ Contributions are accepted under the [Apache License 2.0](LICENSE) and the
 Every commit, including documentation and configuration changes, must include a
 valid `Signed-off-by` trailer from the actual contributor. For command-line Git,
 use `git commit --signoff` or provide an equivalent valid trailer.
+
+To check all commits in a proposed range locally, run:
+
+```bash
+./scripts/check-dco.sh <base-commit> <head-commit>
+```
