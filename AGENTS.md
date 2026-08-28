@@ -66,6 +66,8 @@ Before doing any work in this repository:
 
 - Do not invent build, test, lint, deployment, or release commands. Add commands
   here only after the repository contains a working, verified entry point.
+- For Markdown changes, run the current verified documentation lint command:
+  `npx --yes markdownlint-cli2@0.23.2 "**/*.md"`.
 - Keep code, comments, public documentation, commit messages, Issue content, and
   pull request content in English.
 - Keep changes focused. Do not combine initialization or feature work with
