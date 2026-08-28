@@ -1,0 +1,46 @@
+name: General issue
+description: Propose a focused change or report a non-security problem.
+title: ""
+labels: []
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for helping improve Yamazaki.
+
+        Do not include vulnerability details or sensitive information here. Use private vulnerability reporting for security issues.
+
+  - type: textarea
+    id: background
+    attributes:
+      label: Background or problem
+      description: Explain what is happening and why it is worth addressing.
+      placeholder: Describe the current situation, evidence, or problem.
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected outcome
+      description: Describe the behavior, document, or decision you want to produce.
+      placeholder: Explain the intended result.
+    validations:
+      required: true
+
+  - type: textarea
+    id: scope
+    attributes:
+      label: Scope and non-goals
+      description: State what this issue should and should not include.
+      placeholder: Define the intended boundaries.
+    validations:
+      required: true
+
+  - type: textarea
+    id: context
+    attributes:
+      label: Additional context
+      description: Add relevant versions, logs, links, screenshots, or reproduction details with secrets removed.
+    validations:
+      required: false
