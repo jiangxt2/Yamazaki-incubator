@@ -52,6 +52,7 @@ Yamazaki is not intended to be:
 - [Architecture boundaries](docs/architecture/README.md)
 - [Architecture decision records](docs/adr/README.md)
 - [Compatibility status](docs/compatibility/README.md)
+- [Release policy](RELEASING.md)
 
 ## Contributing
 
