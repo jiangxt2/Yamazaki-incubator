@@ -67,6 +67,26 @@ npx --yes markdownlint-cli2@0.23.2 "**/*.md"
 Never skip, weaken, or misreport a check to create a passing result. State
 unavailable infrastructure and unverified risks explicitly.
 
+## Dependency Updates
+
+Dependabot may open a monthly grouped pull request for GitHub Actions updates.
+Automated pull requests are not exempt from review, DCO sign-off, or required
+CI. Keep actions pinned to immutable commits, review the upstream changes, and
+merge an update only after the repository checks pass.
+
+Other package ecosystems must not be added to Dependabot until the repository
+contains the corresponding manifest and a verified way to validate updates.
+
+## Releases
+
+Yamazaki currently has no released version or supported artifact. See
+[RELEASING.md](RELEASING.md) for the policy that will apply after the first
+artifact and its validation path are approved.
+
+Only a maintainer with explicit release authorization may create a version tag,
+publish a GitHub Release, or publish an artifact. A pull request approval or
+merge does not by itself authorize a release.
+
 ## Code and Documentation
 
 - Use English for code, comments, public documentation, commit messages, Issues,
