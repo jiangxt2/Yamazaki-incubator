@@ -1,10 +1,11 @@
 # Architecture Boundaries
 
-> Status: `Planned`
+> Status: `Validated`
 
-This document records stable design boundaries for Yamazaki. It does not select
-an implementation language, framework, model, storage system, message bus,
-workflow engine, policy engine, or deployment platform.
+This document records stable design boundaries for Yamazaki. The validated
+status applies only to the internal read-only POC; it does not establish a
+production platform or require a message bus, workflow engine, policy engine,
+multi-agent runtime, or deployment platform.
 
 ## Purpose
 
@@ -39,6 +40,25 @@ implying separate services or a chosen framework:
 - Policy evaluation and approval for fixed action types.
 - Action execution through least-privilege engine interfaces.
 - Post-action verification, audit, and safe degradation.
+
+## Experimental POC Structure
+
+The current implementation keeps one code-controlled path:
+
+```text
+InvestigationRequest
+  -> Coordinator
+  -> ClickHouse/Doris fixed read-only adapters
+  -> QueryRun and EvidenceRef
+  -> deterministic SlowQueryDetector
+  -> RuleDiagnoser
+  -> optional one-call model diagnosis
+  -> non-actionable Recommendation
+```
+
+The optional model receives bounded redacted evidence and has no tools. Adapter,
+scenario, persistence, API, and model dependencies point toward narrow core
+contracts; core contracts do not import their implementations.
 
 ## Decision Boundary
 

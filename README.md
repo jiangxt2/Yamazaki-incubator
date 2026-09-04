@@ -1,7 +1,7 @@
 # Yamazaki
 
-> Status: `Planned` — early public incubation with no implemented runtime or
-> supported release.
+> Status: `Validated` — the internal, controlled-network read-only POC has
+> passed its bounded validation Gate. There is no supported release.
 
 Yamazaki is an evidence-driven AIOps governance control plane planned for
 ClickHouse and Apache Doris. It is intended to organize operational signals,
@@ -10,12 +10,37 @@ without becoming part of the database query execution path.
 
 ## Current Status
 
-The repository currently contains project governance and design documentation
-only. It does not provide a runnable service, database integration, model
-runtime, deployment package, or production support commitment.
+The worktree implementation provides a single-process Coordinator, deterministic
+slow-query detection and diagnosis, fixed read-only ClickHouse and Doris
+adapters, PostgreSQL control state, a local evidence store, a CLI, and an
+optional localhost read API. These capabilities are validated only for the
+bounded POC environment and behavior recorded in the test matrix; this is not a
+production support claim.
 
-The implementation language, agent framework, storage, messaging, workflow,
-policy, model, and deployment technologies remain undecided.
+No database action path, multi-agent runtime, message bus, durable workflow,
+policy service, high-availability deployment, or production support commitment
+is included.
+
+## Development
+
+Use Python 3.13 and the locked environment:
+
+```bash
+uv sync --locked --all-extras --group dev
+uv run ruff format --check .
+uv run ruff check .
+uv run mypy
+uv run pytest tests/unit tests/contract tests/replay
+```
+
+The real infrastructure Gate uses only the cached, digest-pinned images recorded
+in [the test matrix](docs/reference/test-matrix.md):
+
+```bash
+./scripts/run_dual_engine_it.sh
+```
+
+Do not run the Docker Gate repeatedly against unchanged code and infrastructure.
 
 ## Planned Scope
 
@@ -52,6 +77,7 @@ Yamazaki is not intended to be:
 - [Architecture boundaries](docs/architecture/README.md)
 - [Architecture decision records](docs/adr/README.md)
 - [Compatibility status](docs/compatibility/README.md)
+- [POC test matrix](docs/reference/test-matrix.md)
 - [Release policy](RELEASING.md)
 
 ## Contributing
