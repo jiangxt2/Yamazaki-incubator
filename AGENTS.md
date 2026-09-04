@@ -62,6 +62,50 @@ Before doing any work in this repository:
   traces must be redacted before entering prompts, logs, telemetry, or durable
   stores.
 
+## Proportional Design and Gate Calibration
+
+- Calibrate every architecture, review, and readiness decision to the actual
+  scenario before defining a gate. Record whether the target is an internal or
+  external deployment, POC or production, single-tenant or multi-tenant, the
+  number and trust level of users, the network and identity boundary, data
+  sensitivity, side-effect scope and reversibility, and the accepted recovery
+  model.
+- Separate requirements into three classes: the minimum controls required by
+  the current scenario, enhancements activated by an explicit trigger, and
+  future production or GA governance. Conditional and future requirements must
+  not be reported as current blockers.
+- Use the actual public implementation, maturity, and operating boundary of
+  leading comparable GitHub projects as the peer baseline. Marketing claims,
+  unmerged proposals, framework feature lists, and abstract best-practice
+  catalogs are not implementation evidence.
+- If leading comparable GitHub projects at the same maturity and scenario
+  boundary generally cannot satisfy a proposed gate, treat the gate as
+  miscalibrated rather than treating Yamazaki as defective. Suspend its blocking
+  status and reassess its scope, evidence, benefit, and minimum viable control
+  before applying it again.
+- A gate stricter than the peer baseline is justified only by a concrete
+  Yamazaki-specific risk, a material benefit in the current scenario, an
+  explicit activation trigger, and evidence that the proposed control is the
+  least complex adequate response. Otherwise classify it as an optional
+  enhancement or future direction.
+- Do not convert the word "enterprise", a generic security checklist, or the
+  availability of Kafka, Temporal, OPA, OpenFGA, Kubernetes, multiple agents,
+  durable workflows, HA storage, or a dedicated UI into a POC prerequisite.
+  Introduce complexity only when the current workload, ownership, isolation,
+  recovery, scale, or action risk requires it.
+- Prefer the smallest end-to-end vertical slice that proves user value and the
+  relevant safety boundary. Do not delay that slice for speculative framework
+  comparisons, generalized plugin systems, future multi-agent topology, or
+  production infrastructure that has no current trigger.
+- When review evidence shows that a previous requirement was over-scoped,
+  explicitly withdraw or downgrade it. Do not preserve an excessive gate merely
+  to maintain an earlier conclusion.
+- Proportionality does not remove the safety invariants in this guide. Secrets
+  must remain protected, database access and side effects must remain bounded by
+  least privilege, expensive or destructive operations must remain controlled
+  and recoverable, and failures, audit-relevant events, and stop mechanisms must
+  remain visible at a level appropriate to the current impact scope.
+
 ## Development and Validation
 
 - Do not invent build, test, lint, deployment, or release commands. Add commands

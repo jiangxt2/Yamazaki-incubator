@@ -1,7 +1,7 @@
 # Yamazaki Documentation
 
-Yamazaki is in early public incubation. These documents describe planned
-boundaries and governance; they do not claim a runnable or supported product.
+Yamazaki is in early public incubation. These documents distinguish the
+validated internal POC from planned and unsupported product capabilities.
 
 Use the following status terms consistently:
 
@@ -17,7 +17,11 @@ Use the following status terms consistently:
 - [Architecture decision records](adr/README.md): how significant decisions are
   proposed and recorded.
 - [Compatibility](compatibility/README.md): engine, deployment, and version
-  evidence. This area is currently pending environment discovery.
+  evidence. The current entry is limited to the validated POC environment.
+- [Test matrix](reference/test-matrix.md): exact POC suites, bound images, and
+  validation results.
+- [POC validation](reference/poc-validation.md): the validated internal
+  read-only slow-query scope and its limitations.
 
 Detailed research and evolving internal planning are intentionally not copied
 into the public repository until their facts and status have been reviewed.

@@ -1,0 +1,1 @@
+"""Yamazaki test suite."""

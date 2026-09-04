@@ -1,0 +1,102 @@
+services:
+  postgres:
+    image: postgres:16.14@sha256:95206741a5b214807675e14165369d05b93a9cf692223b616d07cca227e74b0b
+    pull_policy: never
+    environment:
+      POSTGRES_DB: yamazaki
+      POSTGRES_USER: yamazaki
+      POSTGRES_PASSWORD: ${YAMAZAKI_IT_POSTGRES_PASSWORD}
+    ports:
+      - "127.0.0.1:15433:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U yamazaki -d yamazaki"]
+      interval: 2s
+      timeout: 2s
+      retries: 30
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    networks:
+      - control
+
+  clickhouse:
+    image: clickhouse/clickhouse-server:25.3.2.39@sha256:8745843b17f92db1765025009772ec1d87dfdcaa95deabca6b802a66cb669d30
+    pull_policy: never
+    environment:
+      CLICKHOUSE_DB: default
+      CLICKHOUSE_USER: admin
+      CLICKHOUSE_PASSWORD: ${YAMAZAKI_IT_CLICKHOUSE_ADMIN_PASSWORD}
+      CLICKHOUSE_DEFAULT_ACCESS_MANAGEMENT: "1"
+    ports:
+      - "127.0.0.1:18124:8123"
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "clickhouse-client --user admin --password $$CLICKHOUSE_PASSWORD --query 'SELECT 1'",
+        ]
+      interval: 2s
+      timeout: 3s
+      retries: 30
+    volumes:
+      - clickhouse-data:/var/lib/clickhouse
+    networks:
+      - control
+
+  doris-fe:
+    image: apache/doris:fe-4.0.6@sha256:830863e9ff8af4b354df5303b1235c11b2f822fa3125b83a1627e498c5c251cf
+    pull_policy: never
+    environment:
+      FE_SERVERS: fe1:10.250.128.2:9010
+      FE_ID: "1"
+    ports:
+      - "127.0.0.1:18031:8030"
+      - "127.0.0.1:19031:9030"
+    networks:
+      doris:
+        ipv4_address: 10.250.128.2
+    mem_limit: 3g
+    ulimits:
+      nofile:
+        soft: 200000
+        hard: 200000
+    healthcheck:
+      test:
+        ["CMD-SHELL", "mysql -h 127.0.0.1 -P 9030 -u root -e 'SHOW FRONTENDS'"]
+      interval: 5s
+      timeout: 5s
+      retries: 60
+    volumes:
+      - doris-fe-data:/opt/apache-doris/fe/doris-meta
+
+  doris-be:
+    image: apache/doris:be-4.0.6@sha256:72e58021c2fa110350269e587d6c74a28579d3c1ed563023cb784a3824f4ad87
+    pull_policy: never
+    depends_on:
+      doris-fe:
+        condition: service_started
+    environment:
+      FE_SERVERS: fe1:10.250.128.2:9010
+      BE_ADDR: 10.250.128.3:9050
+    networks:
+      doris:
+        ipv4_address: 10.250.128.3
+    mem_limit: 2g
+    ulimits:
+      nofile:
+        soft: 200000
+        hard: 200000
+    volumes:
+      - doris-be-data:/opt/apache-doris/be/storage
+
+networks:
+  control:
+  doris:
+    ipam:
+      config:
+        - subnet: 10.250.128.0/24
+
+volumes:
+  postgres-data:
+  clickhouse-data:
+  doris-fe-data:
+  doris-be-data:
